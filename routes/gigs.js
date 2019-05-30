@@ -1,19 +1,14 @@
 const express = require("express");
 const router = express.Router();
-//needed for search to use LIKE %jddj%;
-const Sequilize = require('sequelize');
-const Op = Sequilize.Op;
+
 //DB imports
 const db = require("../config/databaseConfigs");
-const Gig = require("../models/Gig");
+// const Gig = require("../models/Gig");
 
 //Routes
 //GET Route
 router.get("/", (req, res)=>{
-  // Gig.findAll({
-  //   attributes: ['title', 'technologies'] //columns
-  // })
-  Gig.findAll()
+  db.select().table('gigs')
     .then(gigs=>{
       res.render('gigs', {
         gigs
@@ -66,13 +61,14 @@ router.post("/add", (req, res)=>{
     //technologies arr, make lowercase & remove space after comma
     technologies = technologies.toLowerCase().replace(/,/g, ',')
 
-    Gig.create({
-    title,
-    technologies,
-    budget,
-    description,
-    contact_email
-    })
+    db('gigs').insert(
+      { title: title,
+        technologies: technologies,
+        budget: budget,
+        description: description,
+        contact_email: contact_email
+      }
+    )
     .then(gig=> res.redirect('/gigs'))
     .catch(err => console.log(err))
   }
@@ -84,10 +80,9 @@ router.get('/search', (req, res)=>{
 
   search_term = search_term.toLowerCase();
 
-  Gig.findAll({where: {technologies: { [Op.like]: '%'+search_term+'%' }}})
+  db('gigs').where('technologies', 'like', `%${search_term}%`)
   .then(gigs=> res.render('gigs', { gigs }))
   .catch(err => console.log(err))
-
 
 })
 

@@ -4,8 +4,6 @@ const exphbs = require("express-handlebars")
 const bodyParser = require("body-parser")
 const path = require("path")
 
-//DATABASE
-const db = require('./config/databaseConfigs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
