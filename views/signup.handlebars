@@ -1,0 +1,31 @@
+<section id="add" class="container">
+  <div class="form-wrap">
+    <h1>Sign Up Here</h1>
+    <p>Enter your Email and Password</p>
+
+    {{#each errors }}
+    <div class="error">
+      <p>{{text}}</p>
+    </div>
+    {{/each}}
+
+    <form action="/auth/signup" method="POST">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" class="input-box" placeholder="Your Email here" maxlength="100"
+          value={{email}}>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" class="input-box"
+          placeholder="Your password, not less than 6 chars" maxlength="100" value={{password}}>
+      </div>
+      <div class="input-group">
+        <label for="password_confirm">password_confirm </label>
+        <input type="password" name="password_confirm" id="password_confirm" class="input-box"
+          placeholder="Enter same password as above" value={{password_confirm}}>
+      </div>
+      <input type="submit" value="Submit" class="btn btn-reverse">
+    </form>
+  </div>
+</section>
