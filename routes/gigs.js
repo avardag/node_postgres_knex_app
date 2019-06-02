@@ -5,6 +5,7 @@ const router = express.Router();
 const db = require("../config/databaseConfigs");
 // const Gig = require("../models/Gig");
 
+const authMiddleware = require("../auth/authMiddleware")
 //Routes
 //GET Route
 router.get("/", (req, res)=>{
@@ -84,6 +85,20 @@ router.get('/search', (req, res)=>{
   .then(gigs=> res.render('gigs', { gigs }))
   .catch(err => console.log(err))
 
+})
+
+//USers gigs
+router.get('/user/:id', authMiddleware, (req, res)=>{
+  console.log(user)
+  db('gigs').where('user_id', req.params.id)
+  .then(gigs=>{
+    if(gigs){
+    res.render("userGigs", {gigs})
+    }else{
+      res.render("userGigs", {message: 'No gigs from you'})
+    }
+  })
+  .catch(err=> console.log(err))
 })
 
 module.exports = router;

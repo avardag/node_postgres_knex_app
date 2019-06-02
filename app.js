@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 //Cookie parser
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //Index view
 app.get('/', (req, res)=>{
